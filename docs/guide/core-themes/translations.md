@@ -4,6 +4,12 @@ Vue Storefront allows you to translate the whole UI using the powerful [vue-i18n
 
 Please be aware of i18n issues while writing your own themes/extensions and keep the i18n support in mind, especially when creating Pull Requests to the core.
 
+For enabling internationalization in Vue Storefront, you need to setup multi-store functionality in Vue Storefront.
+
+:::tip Note
+VSF does not provide internationalization support without multi-store functionaity.
+:::
+
 ## Using i18n in code
 
 When you're working with a plain JS module, you can simply use the translation helper:
