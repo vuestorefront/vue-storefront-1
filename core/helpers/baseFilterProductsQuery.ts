@@ -1,24 +1,6 @@
 import { SearchQuery } from 'storefront-query-builder';
 import config from 'config';
-
-interface Category {
-  id: number,
-  children_data?: Category[]
-};
-
-export enum PRODUCT_VISIBILITY {
-  NOT_VISIBLE_INDIVIDUALLY = 1,
-  CATALOG,
-  SEARCH,
-  CATALOG_AND_SEARCH
-};
-
-export enum PRODUCT_STATUS {
-  NO_STATUS = 0,
-  ENABLED,
-  DISABLED,
-  OUT_OF_STOCK = 4
-}
+import { Category, PRODUCT_VISIBILITY, PRODUCT_STATUS } from './types';
 
 const _findChildCategories = (categories: number[], category: Category): void => {
   if (!category || !category.children_data) {
