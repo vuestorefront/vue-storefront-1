@@ -179,7 +179,7 @@ const errorHandler = (req, res, err) => {
   }
 };
 
-const dynamicRequestHandler = (s, req, res, cacheKey, next, errorHandlerWrapper, renderer, config) => {
+const dynamicRequestHandler = (hitDate: number, req, res, cacheKey, next, errorHandlerWrapper, renderer, config) => {
   if (!renderer) {
     res.setHeader('Content-Type', 'text/html')
     res.status(202).end(HTMLContent)
@@ -243,7 +243,7 @@ const dynamicRequestHandler = (s, req, res, cacheKey, next, errorHandlerWrapper,
       res.end(output)
     }
 
-    console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+    console.log(`whole request [${req.url}]: ${Date.now() - hitDate}ms`)
     next()
   }).catch(errorHandlerWrapper)
     .finally(() => {
@@ -251,7 +251,7 @@ const dynamicRequestHandler = (s, req, res, cacheKey, next, errorHandlerWrapper,
     })
 };
 
-const dynamicCacheHandler = (s, req, res, cacheKey, next, errorHandlerWrapper, config) => {
+const dynamicCacheHandler = (hitDate: number, req, res, cacheKey, next, errorHandlerWrapper, config) => {
   if (config.server.useOutputCache && cache) {
     cache.get(
       cacheKey
@@ -274,16 +274,16 @@ const dynamicCacheHandler = (s, req, res, cacheKey, next, errorHandlerWrapper, c
           res.setHeader('Content-Type', 'text/html')
           res.end(output)
         }
-        console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+        console.log(`cache hit [${req.url}], cached request: ${Date.now() - hitDate}ms`)
         next()
       } else {
         res.setHeader('X-VS-Cache', 'Miss')
-        console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
-        dynamicRequestHandler(s, req, res, cacheKey, next, errorHandlerWrapper, renderer, config) // render response
+        console.log(`cache miss [${req.url}], request: ${Date.now() - hitDate}ms`)
+        dynamicRequestHandler(hitDate, req, res, cacheKey, next, errorHandlerWrapper, renderer, config) // render response
       }
     }).catch(errorHandlerWrapper)
   } else {
-    dynamicRequestHandler(s, req, res, cacheKey, next, errorHandlerWrapper, renderer, config)
+    dynamicRequestHandler(hitDate, req, res, cacheKey, next, errorHandlerWrapper, renderer, config)
   }
 }
 
@@ -293,7 +293,7 @@ app.get('*', async (req, res, next) => {
     return
   }
 
-  const s = Date.now()
+  const hitDate = Date.now()
   const errorHandlerWrapper = err => errorHandler(req, res, err);
 
   const site = req.headers['x-vs-store-code'] || 'main';
@@ -333,7 +333,7 @@ app.get('*', async (req, res, next) => {
     requestContextConfig = config.util.extendDeep({}, globalContextConfig)
   }
 
-  dynamicCacheHandler(s, req, res, cacheKey, next, errorHandlerWrapper, requestContextConfig)
+  dynamicCacheHandler(hitDate, req, res, cacheKey, next, errorHandlerWrapper, requestContextConfig)
 })
 
 let port = process.env.PORT || config.server.port

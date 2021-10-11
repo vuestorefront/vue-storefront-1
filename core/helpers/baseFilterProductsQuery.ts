@@ -24,8 +24,8 @@ const _flatCategoriesTree = (parentCategory: Category): number[] => {
 };
 
 const _addAvailableCatalogFilters = (searchProductQuery: SearchQuery, filters: string[]): void => {
-  for (let attrToFilter of filters) {
-    searchProductQuery.addAvailableFilter({ field: attrToFilter, scope: 'catalog' });
+  for (let field of filters) {
+    searchProductQuery.addAvailableFilter({ field, scope: 'catalog' });
   }
 }
 
