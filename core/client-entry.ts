@@ -16,6 +16,24 @@ import { coreHooksExecutors } from './hooks'
 import { RouterManager } from './lib/router-manager';
 declare var window: any;
 
+function _commonErrorHandler (router, err, reject) {
+  if (err.message.indexOf('query returned empty result') > 0) {
+    rootStore.dispatch('notification/spawnNotification', {
+      type: 'error',
+      message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
+      action1: { label: i18n.t('OK') }
+    })
+    router.push(localizedRoute('/', currentStoreView().storeCode))
+  } else {
+    rootStore.dispatch('notification/spawnNotification', {
+      type: 'error',
+      message: i18n.t(err.message),
+      action1: { label: i18n.t('OK') }
+    })
+    reject()
+  }
+}
+
 function _ssrHydrateSubcomponents (store, router, components, next, to) {
   Promise.all(components.map(SubComponent => {
     if (SubComponent.asyncData) {
@@ -33,24 +51,6 @@ function _ssrHydrateSubcomponents (store, router, components, next, to) {
   }).catch(err => {
     _commonErrorHandler(router, err, next)
   })
-}
-
-function _commonErrorHandler (router, err, reject) {
-  if (err.message.indexOf('query returned empty result') > 0) {
-    rootStore.dispatch('notification/spawnNotification', {
-      type: 'error',
-      message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
-      action1: { label: i18n.t('OK') }
-    })
-    router.push(localizedRoute('/', currentStoreView().storeCode))
-  } else {
-    rootStore.dispatch('notification/spawnNotification', {
-      type: 'error',
-      message: i18n.t(err.message),
-      action1: { label: i18n.t('OK') }
-    })
-    reject()
-  }
 }
 
 const invokeClientEntry = async () => {
