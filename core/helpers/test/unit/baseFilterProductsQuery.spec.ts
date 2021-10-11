@@ -1,4 +1,5 @@
-import { PRODUCT_VISIBILITY, PRODUCT_STATUS, baseFilterProductsQuery } from '../../baseFilterProductsQuery';
+import { baseFilterProductsQuery } from '../../baseFilterProductsQuery';
+import { PRODUCT_VISIBILITY, PRODUCT_STATUS } from '../../types';
 import { SearchQuery } from 'storefront-query-builder';
 import config from 'config';
 
