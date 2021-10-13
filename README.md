@@ -1,5 +1,7 @@
 
-<img src="https://d9hhrg4mnvzow.cloudfront.net/www.vuestorefront.io/280b19d0-logo-vs_0by02c0by02c000000.jpg"></img>
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/1626923/137092657-fb398d20-b592-4661-a1f9-4135db0b61d5.png" alt="Vue Storefront" height="80px" />
+</div>
 
 # Vue Storefront - Headless PWA for any eCommerce
 
@@ -7,7 +9,9 @@
 ![version](https://img.shields.io/badge/node-v10.x-blue.svg)
 <a href="https://github.com/vuestorefront/vue-storefront"><img src="https://img.shields.io/badge/stable%20branch-master-blue.svg" alt="Branch stable"></a>
 <a href="https://github.com/vuestorefront/vue-storefront/tree/develop"><img src="https://img.shields.io/badge/dev%20branch-develop-blue.svg" alt="Branch Develop"></a>
-<a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
+<a href="http://discord.vuestorefront.io/">
+<img src="https://discordapp.com/api/guilds/770285988244750366/widget.png?style=shield" alt="Discord Shield"/>
+</a>
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backends, for example:
 - <a href="https://www.vuestorefront.io/pwa-for-magento?utm_source=github.com&utm_medium=referral&utm_campaign=readme">Magento</a>  
@@ -24,7 +28,7 @@ The project is in the **production ready** phase.
 ## Links
 
 -   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io)
--   👥  Slack Community:  [slack.vuestorefront.io](https://slack.vuestorefront.io/)
+-   👥  Discord Community:  [discord.vuestorefront.io](http://discord.vuestorefront.io/)
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
 -   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
 -   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
@@ -60,7 +64,7 @@ You can learn more about Vue Storefront Next from the README on the  `next`  bra
     <tr>
       <td><img src="https://user-images.githubusercontent.com/15185752/93322154-4beb4b80-f813-11ea-9e94-1666141ba4a6.png" width="160" />
 </td>
-      <td>If you want to learn more about Vue Storefront Next, contribute or build an integration reach to <b>Filip Rakowski</b> on our <a href="https://slack.vuestorefront.io/">Slack</a></td>
+      <td>If you want to learn more about Vue Storefront Next, contribute or build an integration reach to <b>Filip Rakowski</b> on our <a href="https://discord.vuestorefront.io/">Discord</a></td>
     </tr>
   </tbody>
   </table>
@@ -74,14 +78,14 @@ You can learn more about Vue Storefront Next from the README on the  `next`  bra
     <tr>
       <td><img src="https://user-images.githubusercontent.com/15185752/93321206-3b86a100-f812-11ea-97ac-35572ba9e0de.png" width="150" />
 </td>
-      <td>If you're new and need some guidance feel free to visit out <a href="https://forum.vuestorefront.io/">forum</a> or reach to <b>Filip Jędrasik (@Fifciuu)</b> from the core team on our <a href="https://slack.vuestorefront.io/">Slack</a></td>
+      <td>If you're new and need some guidance feel free to visit out <a href="https://forum.vuestorefront.io/">forum</a> or reach to <b>Filip Jędrasik (@Fifciuu)</b> from the core team on our <a href="https://discord.vuestorefront.io/">Discord</a></td>
     </tr>
   </tbody>
   </table>
 
 
 
-Want to invest some time in building the future of eCommerce? we are looking for agencies and developers willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
+Want to invest some time in building the future of eCommerce? we are looking for agencies and developers willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on discord
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
 
@@ -103,7 +107,7 @@ PS: Check [Storefront UI](https://github.com/vuestorefront/storefront-ui/) - our
         </a>
       </td>
       <td align="left" valign="top">
-        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
+        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://discord.vuestorefront.io">Discord</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
       </td>
     </tr>
   </tbody>
@@ -125,7 +129,7 @@ Starting new project on Vue Storefront? Try out the new <a href="https://github.
         </a>
       </td>
       <td align="left" valign="top">
-        Try out our open demo and if you like it <strong> first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Vue Storefront Official Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to Magento2. <br />
+        Try out our open demo and if you like it <strong> first give us some star on Github ★</strong> and then contact us on <a href="https://discord.vuestorefront.io">Vue Storefront Official Discord</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to Magento2. <br />
       </td>
     </tr>
   </tbody>
@@ -159,16 +163,16 @@ Yes! There are more than **140 implementations** happening right now and many li
 
 For an up-to-date list of supported browsers please see "browserslist" in package.json
 
-## Join the community on Slack
+## Join the community on Discord
 
-If you have any questions or ideas feel free to join our slack via invitation link: [https://slack.vuestorefront.io/](https://slack.vuestorefront.io/)
+If you have any questions or ideas feel free to join our discord via invitation link: [https://discord.vuestorefront.io/](https://discord.vuestorefront.io/)
 
 ## Roadmap
 
 [Here](https://github.com/vuestorefront/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
 
 #### Roadmap planning
-[Here](https://github.com/vuestorefront/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to the next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
+[Here](https://github.com/vuestorefront/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to the next milestones.
 
 The process of adding new features to the roadmap looks like this:
 1. You create an issue and label it as `feature request`.
@@ -184,7 +188,7 @@ Please note that bugfixes are treated separately and in most cases added to the 
 
 [Check the feature list of 1.0](https://docs.vuestorefront.io/guide/basics/feature-list.html).
 
-If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our slack
+If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our discord
 
 ## Documentation + table of contents
 
