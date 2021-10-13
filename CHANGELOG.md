@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `beforeBuildCacheKey` server hook (#5297)
 - Fixed some typo in docs (#5071)
 - Fix product deletion from cart on logout->login on "out of stock" error - @SergeyDarnopykh ([#5974](https://github.com/vuestorefront/vue-storefront/issues/5974))
+- Fix bug that mutates `config.products.omitVariantFields` so that configurable products may be assigned the wrong base image. (#497)
 
 ### Changed / Improved
 
