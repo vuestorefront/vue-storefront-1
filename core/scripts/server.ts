@@ -162,29 +162,139 @@ app.get('/cache-version.json', cacheVersion)
 
 let globalContextConfig: any = null;
 
+const errorHandler = (req, res, err) => {
+  if (err && err.code === 404) {
+    if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+      console.error(`Resource is not found : ${req.url}`)
+      return apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+    } else {
+      console.error(`Redirect for resource not found : ${req.url}`)
+      return res.redirect('/page-not-found')
+    }
+  } else {
+    console.error(`Error during render : ${req.url}`)
+    console.error(err)
+    serverHooksExecutors.ssrException({ err, req, isProd })
+    return res.redirect('/error')
+  }
+};
+
+const dynamicRequestHandler = (hitDate: number, req, res, cacheKey, next, errorHandlerWrapper, renderer, config) => {
+  if (!renderer) {
+    res.setHeader('Content-Type', 'text/html')
+    res.status(202).end(HTMLContent)
+    return next()
+  }
+  const context: Context = ssr.initSSRRequestContext(app, req, res, config)
+  renderer.renderToString(context).then(output => {
+    if (context.server._redirect.isPending()) {
+      console.log(`redirect from [${context.url}]`)
+      // it should have arguments setup, we just need to call it
+      context.server._redirect.resolver.call(null)
+      return
+    }
+    if (!res.get('content-type')) {
+      res.setHeader('Content-Type', 'text/html')
+    }
+    let tagsArray = []
+    if (config.server.useOutputCacheTagging && context.output.cacheTags && context.output.cacheTags.size > 0) {
+      tagsArray = Array.from(context.output.cacheTags)
+      const cacheTags = tagsArray.join(' ')
+      res.setHeader('X-VS-Cache-Tags', cacheTags)
+      console.log(`cache tags for the request: ${cacheTags}`)
+    }
+
+    const beforeOutputRenderedResponse = serverHooksExecutors.beforeOutputRenderedResponse({
+      req,
+      res,
+      context,
+      output,
+      isProd
+    })
+
+    if (typeof beforeOutputRenderedResponse.output === 'string') {
+      output = beforeOutputRenderedResponse.output
+    } else if (typeof beforeOutputRenderedResponse === 'string') {
+      output = beforeOutputRenderedResponse
+    }
+
+    output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
+    if (config.server.useOutputCache && cache) {
+      cache.set(
+        cacheKey,
+        { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
+        tagsArray
+      ).catch(errorHandlerWrapper)
+    }
+
+    const afterOutputRenderedResponse = serverHooksExecutors.afterOutputRenderedResponse({
+      req,
+      res,
+      context,
+      output,
+      isProd
+    })
+
+    if (typeof afterOutputRenderedResponse === 'string') {
+      res.end(afterOutputRenderedResponse)
+    } else if (typeof afterOutputRenderedResponse.output === 'string') {
+      res.end(afterOutputRenderedResponse.output)
+    } else {
+      res.end(output)
+    }
+
+    console.log(`whole request [${req.url}]: ${Date.now() - hitDate}ms`)
+    next()
+  }).catch(errorHandlerWrapper)
+    .finally(() => {
+      ssr.clearContext(context)
+    })
+};
+
+const dynamicCacheHandler = (hitDate: number, req, res, cacheKey, next, errorHandlerWrapper, config) => {
+  if (config.server.useOutputCache && cache) {
+    cache.get(
+      cacheKey
+    ).then(output => {
+      if (output !== null) {
+        if (output.headers) {
+          for (const header of Object.keys(output.headers)) {
+            res.setHeader(header, output.headers[header])
+          }
+        }
+        res.setHeader('X-VS-Cache', 'Hit')
+
+        if (output.httpCode) {
+          res.status(output.httpCode)
+        }
+
+        if (output.body) {
+          res.end(output.body)
+        } else {
+          res.setHeader('Content-Type', 'text/html')
+          res.end(output)
+        }
+        console.log(`cache hit [${req.url}], cached request: ${Date.now() - hitDate}ms`)
+        next()
+      } else {
+        res.setHeader('X-VS-Cache', 'Miss')
+        console.log(`cache miss [${req.url}], request: ${Date.now() - hitDate}ms`)
+        dynamicRequestHandler(hitDate, req, res, cacheKey, next, errorHandlerWrapper, renderer, config) // render response
+      }
+    }).catch(errorHandlerWrapper)
+  } else {
+    dynamicRequestHandler(hitDate, req, res, cacheKey, next, errorHandlerWrapper, renderer, config)
+  }
+}
+
 app.get('*', async (req, res, next) => {
   if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
     apiStatus(res, 'Vue Storefront: Resource is not found', 404)
     return
   }
 
-  const s = Date.now()
-  const errorHandler = err => {
-    if (err && err.code === 404) {
-      if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
-        console.error(`Resource is not found : ${req.url}`)
-        return apiStatus(res, 'Vue Storefront: Resource is not found', 404)
-      } else {
-        console.error(`Redirect for resource not found : ${req.url}`)
-        return res.redirect('/page-not-found')
-      }
-    } else {
-      console.error(`Error during render : ${req.url}`)
-      console.error(err)
-      serverHooksExecutors.ssrException({ err, req, isProd })
-      return res.redirect('/error')
-    }
-  }
+  const hitDate = Date.now()
+  const errorHandlerWrapper = err => errorHandler(req, res, err);
 
   const site = req.headers['x-vs-store-code'] || 'main';
   const defaultCacheKey = `page:${site}:${req.url}`;
@@ -194,114 +304,6 @@ app.get('*', async (req, res, next) => {
     site
   })
   const cacheKey = typeof newCacheKey === 'string' ? newCacheKey : defaultCacheKey;
-
-  const dynamicRequestHandler = (renderer, config) => {
-    if (!renderer) {
-      res.setHeader('Content-Type', 'text/html')
-      res.status(202).end(HTMLContent)
-      return next()
-    }
-    const context: Context = ssr.initSSRRequestContext(app, req, res, config)
-    renderer.renderToString(context).then(output => {
-      if (context.server._redirect.isPending()) {
-        console.log(`redirect from [${context.url}]`)
-        // it should have arguments setup, we just need to call it
-        context.server._redirect.resolver.call(null)
-        return
-      }
-      if (!res.get('content-type')) {
-        res.setHeader('Content-Type', 'text/html')
-      }
-      let tagsArray = []
-      if (config.server.useOutputCacheTagging && context.output.cacheTags && context.output.cacheTags.size > 0) {
-        tagsArray = Array.from(context.output.cacheTags)
-        const cacheTags = tagsArray.join(' ')
-        res.setHeader('X-VS-Cache-Tags', cacheTags)
-        console.log(`cache tags for the request: ${cacheTags}`)
-      }
-
-      const beforeOutputRenderedResponse = serverHooksExecutors.beforeOutputRenderedResponse({
-        req,
-        res,
-        context,
-        output,
-        isProd
-      })
-
-      if (typeof beforeOutputRenderedResponse.output === 'string') {
-        output = beforeOutputRenderedResponse.output
-      } else if (typeof beforeOutputRenderedResponse === 'string') {
-        output = beforeOutputRenderedResponse
-      }
-
-      output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
-      if (config.server.useOutputCache && cache) {
-        cache.set(
-          cacheKey,
-          { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
-          tagsArray
-        ).catch(errorHandler)
-      }
-
-      const afterOutputRenderedResponse = serverHooksExecutors.afterOutputRenderedResponse({
-        req,
-        res,
-        context,
-        output,
-        isProd
-      })
-
-      if (typeof afterOutputRenderedResponse === 'string') {
-        res.end(afterOutputRenderedResponse)
-      } else if (typeof afterOutputRenderedResponse.output === 'string') {
-        res.end(afterOutputRenderedResponse.output)
-      } else {
-        res.end(output)
-      }
-
-      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
-      next()
-    }).catch(errorHandler)
-      .finally(() => {
-        ssr.clearContext(context)
-      })
-  }
-
-  const dynamicCacheHandler = (config) => {
-    if (config.server.useOutputCache && cache) {
-      cache.get(
-        cacheKey
-      ).then(output => {
-        if (output !== null) {
-          if (output.headers) {
-            for (const header of Object.keys(output.headers)) {
-              res.setHeader(header, output.headers[header])
-            }
-          }
-          res.setHeader('X-VS-Cache', 'Hit')
-
-          if (output.httpCode) {
-            res.status(output.httpCode)
-          }
-
-          if (output.body) {
-            res.end(output.body)
-          } else {
-            res.setHeader('Content-Type', 'text/html')
-            res.end(output)
-          }
-          console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
-          next()
-        } else {
-          res.setHeader('X-VS-Cache', 'Miss')
-          console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
-          dynamicRequestHandler(renderer, config) // render response
-        }
-      }).catch(errorHandler)
-    } else {
-      dynamicRequestHandler(renderer, config)
-    }
-  }
 
   let requestContextConfig: any = config.util.extendDeep({}, config);
 
@@ -331,7 +333,7 @@ app.get('*', async (req, res, next) => {
     requestContextConfig = config.util.extendDeep({}, globalContextConfig)
   }
 
-  dynamicCacheHandler(requestContextConfig)
+  dynamicCacheHandler(hitDate, req, res, cacheKey, next, errorHandlerWrapper, requestContextConfig)
 })
 
 let port = process.env.PORT || config.server.port

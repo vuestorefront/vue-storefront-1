@@ -1,4 +1,3 @@
-import { SearchQuery } from 'storefront-query-builder'
 import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
@@ -9,6 +8,9 @@ import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import omit from 'lodash-es/omit'
+import { baseFilterProductsQuery } from './baseFilterProductsQuery';
+
+export { baseFilterProductsQuery };
 
 export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
@@ -111,44 +113,6 @@ export function productThumbnailPath (product, ignoreConfig = false) {
     }
   }
   return thumbnail
-}
-
-export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
-  let searchProductQuery = new SearchQuery()
-  searchProductQuery = searchProductQuery
-    .applyFilter({ key: 'visibility', value: { 'in': [2, 3, 4] } })
-    .applyFilter({ key: 'status', value: { 'in': [0, 1] } }) /* 2 = disabled, 4 = out of stock */
-
-  if (config.products.listOutOfStockProducts === false) {
-    searchProductQuery = searchProductQuery.applyFilter({ key: 'stock.is_in_stock', value: { 'eq': true } })
-  }
-  // Add available catalog filters
-  for (let attrToFilter of filters) {
-    searchProductQuery = searchProductQuery.addAvailableFilter({ field: attrToFilter, scope: 'catalog' })
-  }
-
-  let childCats = [parentCategory.id]
-  if (parentCategory.children_data) {
-    let recurCatFinderBuilder = (category) => {
-      if (!category) {
-        return
-      }
-
-      if (!category.children_data) {
-        return
-      }
-
-      for (let sc of category.children_data) {
-        if (sc && sc.id) {
-          childCats.push(sc.id)
-        }
-        recurCatFinderBuilder(sc)
-      }
-    }
-    recurCatFinderBuilder(parentCategory)
-  }
-  searchProductQuery = searchProductQuery.applyFilter({ key: 'category_ids', value: { 'in': childCats } })
-  return searchProductQuery
 }
 
 export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, defaultFilters = null) {
