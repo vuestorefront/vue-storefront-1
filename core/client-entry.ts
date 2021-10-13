@@ -14,7 +14,44 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import globalConfig from 'config'
 import { coreHooksExecutors } from './hooks'
 import { RouterManager } from './lib/router-manager';
-declare var window: any
+declare var window: any;
+
+function _commonErrorHandler (router, err, reject) {
+  if (err.message.indexOf('query returned empty result') > 0) {
+    rootStore.dispatch('notification/spawnNotification', {
+      type: 'error',
+      message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
+      action1: { label: i18n.t('OK') }
+    })
+    router.push(localizedRoute('/', currentStoreView().storeCode))
+  } else {
+    rootStore.dispatch('notification/spawnNotification', {
+      type: 'error',
+      message: i18n.t(err.message),
+      action1: { label: i18n.t('OK') }
+    })
+    reject()
+  }
+}
+
+function _ssrHydrateSubcomponents (store, router, components, next, to) {
+  Promise.all(components.map(SubComponent => {
+    if (SubComponent.asyncData) {
+      return SubComponent.asyncData({
+        store,
+        route: to
+      })
+    } else {
+      return Promise.resolve(null)
+    }
+  })).then(() => {
+    AsyncDataLoader.flush({ store, route: to, context: null }).then(next).catch(err => {
+      _commonErrorHandler(router, err, next)
+    })
+  }).catch(err => {
+    _commonErrorHandler(router, err, next)
+  })
+}
 
 const invokeClientEntry = async () => {
   const dynamicRuntimeConfig = window.__INITIAL_STATE__.config ? Object.assign(globalConfig, window.__INITIAL_STATE__.config) : globalConfig
@@ -33,42 +70,6 @@ const invokeClientEntry = async () => {
   await store.dispatch('url/registerDynamicRoutes')
   RouterManager.flushRouteQueue()
 
-  function _commonErrorHandler (err, reject) {
-    if (err.message.indexOf('query returned empty result') > 0) {
-      rootStore.dispatch('notification/spawnNotification', {
-        type: 'error',
-        message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
-        action1: { label: i18n.t('OK') }
-      })
-      router.push(localizedRoute('/', currentStoreView().storeCode))
-    } else {
-      rootStore.dispatch('notification/spawnNotification', {
-        type: 'error',
-        message: i18n.t(err.message),
-        action1: { label: i18n.t('OK') }
-      })
-      reject()
-    }
-  }
-
-  function _ssrHydrateSubcomponents (components, next, to) {
-    Promise.all(components.map(SubComponent => {
-      if (SubComponent.asyncData) {
-        return SubComponent.asyncData({
-          store,
-          route: to
-        })
-      } else {
-        return Promise.resolve(null)
-      }
-    })).then(() => {
-      AsyncDataLoader.flush({ store, route: to, context: null }).then(next).catch(err => {
-        _commonErrorHandler(err, next)
-      })
-    }).catch(err => {
-      _commonErrorHandler(err, next)
-    })
-  }
   router.onReady(async () => {
     // check if app can be mounted
     const canBeMounted = () => RouterManager.isRouteDispatched() && // route is dispatched
@@ -116,10 +117,10 @@ const invokeClientEntry = async () => {
         if (c.asyncData) {
           c.asyncData({ store, route: to }).then(result => { // always execute the asyncData() from the top most component first
             Logger.debug('Top-most asyncData executed')()
-            _ssrHydrateSubcomponents(components, next, to)
+            _ssrHydrateSubcomponents(store, router, components, next, to)
           }).catch(next)
         } else {
-          _ssrHydrateSubcomponents(components, next, to)
+          _ssrHydrateSubcomponents(store, router, components, next, to)
         }
       }))
     })

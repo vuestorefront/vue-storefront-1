@@ -1,13 +1,14 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { ProductConfiguration } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
 import getProductOptions from './getProductOptions'
+import { MappedProductOptionValue } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
 
-const ATTRIBUTES = ['color', 'size']
+const ATTRIBUTES = ['color', 'size'];
+const getAttributesFields = (attrOptions: MappedProductOptionValue[] = [], productAttrValue) =>
+  attrOptions.find(attrOption => String(attrOption.id) === String(productAttrValue))
 
 const getProductConfiguration = (product: CartItem): ProductConfiguration => {
-  const options = getProductOptions(product)
-  const getAttributesFields = (attributeCode) =>
-    (options[attributeCode] || []).find(c => String(c.id) === String(product[attributeCode]))
+  const options = getProductOptions(product);
 
   if (!options) {
     return null
@@ -17,9 +18,9 @@ const getProductConfiguration = (product: CartItem): ProductConfiguration => {
     ...prev,
     [curr]: {
       attribute_code: curr,
-      ...getAttributesFields(curr)
+      ...getAttributesFields(options[curr], product[curr])
     }
   }), {}) as any as ProductConfiguration
 }
 
-export default getProductConfiguration
+export default getProductConfiguration;
