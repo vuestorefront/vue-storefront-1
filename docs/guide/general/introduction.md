@@ -4,7 +4,7 @@ Vue Storefront is a rather complex solution with a lot of possibilities. Learnin
 
 
 ## What is Vue Storefront
-![Vue Storefront](https://cdn-images-1.medium.com/max/1600/0*X7cXhVkWidbWFrbM)
+![Vue Storefront](https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/6164b265de5283834dad50da_VSF%20Primary.svg)
 
 Vue Storefront is a headless and backend-agnostic eCommerce [Progressive Web App (PWA)](https://developers.google.com/web/progressive-web-apps/) written in Vue.js. The fact that it's using headless architecture allows Vue Storefront to connect with any eCommerce platform so it can be a frontend PWA for Magento, Shopify, BigCommerce, WooCommerce and etc.
 

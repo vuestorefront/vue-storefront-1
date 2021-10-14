@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /vuelogo.jpg
+heroImage: /vsf-full.svg
 heroText: Documentation
 tagline: Bodiless frontend framework for headless commerce (Magento 2)
 actionText: Introduction →
