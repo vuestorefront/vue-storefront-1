@@ -6,7 +6,7 @@ Vue Storefront is based on open-source technologies, which should (in theory) wo
 
 1. Please download [Docker for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows) and install it on your machine. [More Information](https://blog.jayway.com/2017/04/19/running-docker-on-bash-on-windows/).
 2. Install [LTS version of Node.js for Windows](https://nodejs.org/en/download/).
-3. Instal [Yarn](https://yarnpkg.com/en/docs/install).
+3. Install [Yarn](https://yarnpkg.com/en/docs/install).
 4. You can use any editor for development, but we're using [Visual Studio Code](https://code.visualstudio.com/) which is cool, free, and very JS-friendly!
 5. You can [download Github Desktop](https://desktop.github.com/) to get access not only for fancy UI, but for the git toolset itself.
 
