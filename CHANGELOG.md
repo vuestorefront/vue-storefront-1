@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `beforeBuildCacheKey` server hook (#5297)
 - Fixed some typo in docs (#5071)
 - Fix product deletion from cart on logout->login on "out of stock" error - @SergeyDarnopykh ([#5974](https://github.com/vuestorefront/vue-storefront/issues/5974))
+- Fix bug where adding/removing coupon would not honor the currently selected shipping method when syncing totals. (#6046)
 
 ### Changed / Improved
 
@@ -67,6 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `VueObserveVisibility` from core - @lukaszjedrasik ([#4998](https://github.com/vuestorefront/vue-storefront/issues/4998))
 - Removed `vsf-cache-varnish` and `vsf-cache-nginx` from package
 - Improved: code to use defined method instead of writing same code again - @ymaheshwari1 ([#456](https://github.com/vuestorefront/vue-storefront-1/issues/456))
+- [Docs] Added: information regarding enabling internationalization support in VSF - @ymaheshwari1 (#486)
+- Removed a few functions inside functions declarations ([#491](https://github.com/vuestorefront/vue-storefront-1/pull/491))
 
 ## [1.12.3] - 2021.06.24
 
