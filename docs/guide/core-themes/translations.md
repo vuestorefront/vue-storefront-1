@@ -4,6 +4,12 @@ Vue Storefront allows you to translate the whole UI using the powerful [vue-i18n
 
 Please be aware of i18n issues while writing your own themes/extensions and keep the i18n support in mind, especially when creating Pull Requests to the core.
 
+For enabling internationalization in Vue Storefront, you need to setup multi-store functionality in Vue Storefront.
+
+:::tip Note
+VSF does not provide internationalization support without multi-store functionaity.
+:::
+
 ## Using i18n in code
 
 When you're working with a plain JS module, you can simply use the translation helper:
@@ -34,7 +40,7 @@ Translations are provided in `core/i18n/resource/i18n/en-US.csv` file and can be
 Here's an example of `en-US.csv` for `en-US` locale:
 
 ```csv
-"customMessage","You can define or override translation messages here."
+"customMessage","Here is the core message. that can be overwritten in the theme"
 "welcomeMessage", "Welcome to Vue Storefront theme starter!",
 "In case of any problems please take a look at the docs. If you haven't found what you were looking for in docs feel free to ask your question on our Slack", "In case of any problems please take a look at the docs. If you haven't found what you were looking for in docs feel free to ask your question on our Slack",
 "Here are some links that can help you with developing your own theme", "Here are some links that can help you with developing your own theme",
