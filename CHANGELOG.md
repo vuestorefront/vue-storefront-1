@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix product deletion from cart on logout->login on "out of stock" error - @SergeyDarnopykh ([#5974](https://github.com/vuestorefront/vue-storefront/issues/5974))
 - Fix bug where adding/removing coupon would not honor the currently selected shipping method when syncing totals. - @didkan ([#6046](https://github.com/vuestorefront/vue-storefront/pull/6046))
 - Fix bug that mutates `config.products.omitVariantFields` so that configurable products may be assigned the wrong base image. - @didkan ([#497](https://github.com/vuestorefront/vue-storefront-1/pull/497))
+- Fixed the code to display the unique images when setting the mergeConfigurableChildren to false - @ymaheshwari1 ([#404](https://github.com/vuestorefront/vue-storefront-1/issues/404))
 
 ### Changed / Improved
 
