@@ -16,7 +16,8 @@ const shippingDetails = {
   apartmentNumber: '12',
   state: 'xxxx',
   phoneNumber: '123123123',
-  shippingMethod: 'method'
+  shippingMethod: '',
+  shippingCarrier: ''
 };
 
 const paymentDetails = {
