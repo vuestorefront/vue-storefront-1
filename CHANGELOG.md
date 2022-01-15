@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed some typo in docs (#5071)
 
+### Changed / Improved
+- Changed the links for vsf2 from next branch to vsf 2 repo - @ymaheshwari1([#505](https://github.com/vuestorefront/vue-storefront-1/pull/505))
+
 ## [1.12.3] - 2021.06.24
 
 ### Added
