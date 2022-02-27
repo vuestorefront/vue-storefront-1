@@ -6,20 +6,18 @@
 ---------
 
 # #TechForUkraine
-
-<table>
-  <tr>
-    <td style="width:40%;">
+<div align="center">
+<p>
        <img src="https://user-images.githubusercontent.com/1626923/155853691-d6d0a541-d3b9-40bf-b8f5-2d38303e9e49.png" />
-    </td>
-    <td>
+</p>
       <h2><strong>Ongoing tensions on Ukrainian territory close the space for civil society.</strong></h2>
+<div align="left">
       <h3>How can you support Ukrainian civil society?</h3>
-      All the help is valid, and if you are not able to help locally, by giving shelter to a fellow Ukraine, there are some ways that you can help also:
+      All help is needed. If you are not able to help locally, by sheltering a fellow Ukrainian, you can also:
       <ul>
         <li>
-          Support the Ukraine Armed forces directly by sending funding to the open special accounts.<br />
-          <a href="https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi" target="_blank">NBU Opens Special Account to Raise Funds for Ukraine’s Armed Forces</a>
+          Support the Ukraine Armed forces directly by sending funding to the special accounts.<br />
+          <a href="https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi" target="_blank">NBU Special Account to Raise Funds for Ukraine’s Armed Forces</a>
         </li>
         <li>
           Help the ICRC (Red Cross) with donations.<br />
@@ -33,11 +31,18 @@
           Donate to Voices of Children<br />
           <a href="https://voices.org.ua/en/" target="_blank">Voices of Children</a>
         </li>
-    </td>
-  </tr>
-</table>
+        </div>
+          </div>
 
----------
+  ---------
+
+### Stay connected
+
+![GitHub Repo stars](https://img.shields.io/github/stars/vuestorefront/vue-storefront?style=social)
+![Twitter Follow](https://img.shields.io/twitter/follow/vuestorefront?style=social)
+![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social)
+[![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)](https://discord.vuestorefront.io)
+
 
 # Vue Storefront - Headless PWA for any eCommerce
 
@@ -66,7 +71,6 @@ The project is in the **production ready** phase.
 -   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io)
 -   👥  Discord Community:  [discord.vuestorefront.io](http://discord.vuestorefront.io/)
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
--   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
 -   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## How to start?
@@ -114,7 +118,7 @@ You can learn more about Vue Storefront Next from the README on the  `next`  bra
     <tr>
       <td><img src="https://user-images.githubusercontent.com/15185752/93321206-3b86a100-f812-11ea-97ac-35572ba9e0de.png" width="150" />
 </td>
-      <td>If you're new and need some guidance feel free to visit out <a href="https://forum.vuestorefront.io/">forum</a> or reach to <b>Filip Jędrasik (@Fifciuu)</b> from the core team on our <a href="https://discord.vuestorefront.io/">Discord</a></td>
+      <td>If you're new and need some guidance feel free to reach to <b>Filip Jędrasik (@Fifciuu)</b> from the core team on our <a href="https://discord.vuestorefront.io/">Discord</a></td>
     </tr>
   </tbody>
   </table>
