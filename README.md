@@ -68,7 +68,7 @@ The project is in the **production ready** phase.
 
 ## Links
 
--   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io)
+-   📘  Documentation:  [docs.vuestorefront.io/v1](https://docs.vuestorefront.io/v1/)
 -   👥  Discord Community:  [discord.vuestorefront.io](http://discord.vuestorefront.io/)
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
 -   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
@@ -80,7 +80,7 @@ Which Vue Storefront should I choose for my next project?
  - If you’re on **Magento 1 or Magento 2** choose Vue Storefront 1.x
    with vsf-capybara theme,  [Install it using CLI](https://docs.vuestorefront.io/guide/cookbook/setup.html)
    
-  -  If you’re on **commercetools / About You Cloud** choose Vue Storefront Next clone it from [`next`](https://github.com/vuestorefront/vue-storefront/tree/next) 
+  -  If you’re on **commercetools / About You Cloud** choose Vue Storefront Next clone it from [`vue-storefront`](https://github.com/vuestorefront/vue-storefront/) 
    
   -  If you’re on **Shopware 6** go to  [`shopware-pwa`](https://github.com/vuestorefront/shopware-pwa)   sub-project and use the Shopware PWA powered by Vue Storefront
 
@@ -88,7 +88,7 @@ Check our Rodmap -> link do  [https://github.com/vuestorefront/vue-storefront#ro
 
 ## About Vue Storefront Next
 
-We're developing a next version of Vue Storefront on the  [`next`  branch](https://github.com/vuestorefront/vue-storefront/tree/next).
+We're developing a next version of Vue Storefront on the  [`vue-storefront` repository](https://github.com/vuestorefront/vue-storefront).
 
 We're building the following integrations within Next architecture:
 
@@ -98,7 +98,7 @@ We're building the following integrations within Next architecture:
 -   Shopify
 -   Salesforce Commerce Cloud
 
-You can learn more about Vue Storefront Next from the README on the  `next`  branch and  [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s)  video
+You can learn more about Vue Storefront Next from the README on the  `vue-storefront` repository and  [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s)  video
 <table>
   <tbody>
     <tr>
